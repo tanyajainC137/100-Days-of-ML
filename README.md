@@ -17,16 +17,16 @@ Did some prelim research on upcoming AI tech and their methods and approaches
 * Quantization of NN; Graffitist
 * Quantum computing and NNs; computational supremacy
 * Ethical aspects of DL; XAI  
-Will delve into more depth of each domain further
+> Will delve into more depth of each domain further
 
 ## Day 1, 25th Aug 2020
 ### Gaussian Processes in Machine Learning: 
 1. YT lectures on GP : https://www.youtube.com/watch?v=4vGiHC35j9s
 2. google/neural-tangents framework combines neural networks with GPs and come up with predictions that have an uncertanity factor attached with them.
 3. Libraries: 
-  1. JAX
-  2. neural_tangents  
-4. Forked the GH repo of neural-tangents and practicing on provided colab notebooks. 
+  - JAX
+  - neural_tangents  
+4. Forked the GH repo of neural-tangents and started practicing on provided colab notebooks. 
  
 ### Key takeaways from [Colab NB #1]:(https://colab.research.google.com/github/google/neural-tangents/blob/master/notebooks/neural_tangents_cookbook.ipynb#scrollTo=c3lXqB1t3U9g):
   
@@ -42,7 +42,8 @@ Will delve into more depth of each domain further
           ` init_fn(key, input_shape)`
           ` apply_fn(params, xs)`
           ` kernel_fn(test_xs, test_xs, 'nngp' or 'ntk')`
-          > kernel_fn used to store the covariance matrices of data;
+      
+      > kernel_fn used to store the covariance matrices of data;
   
   3. predict_fn is used to make predictions on the test data using gradient descent 
       * `predict_fn = nt.predict.gradient_descent_mse_ensemble(kernel_fn, train_xs, train_ys, diag_reg = 'constt')`
