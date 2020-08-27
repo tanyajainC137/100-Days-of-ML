@@ -66,11 +66,77 @@ Did some prelim research on upcoming AI tech and their methods and approaches
       * `ts = np.linspace(0, 10 **  3, 10 *  -1);  #large set of values `
       * `mean_loss = loss_fn(predict_fn, test_ys or train_ys, ts, test_xs)`
       > default value of ts is infinity and test_xs is used only along test_ys for test_loss_mean
-    
-    
-    
-  
-  
+      
+  8. training the network
+      * comparison of GP-interference and ensemble of finite-widths
+      * start with single network drawn from prior and then generalise to ensemble
+      
+      `learning_rate = 0.1`
+      `training_step = 1e4`
+      
+      `opt_init, opt_update, get_params = optimizers.sgd(learning_rate)`
+      ```
+      loss = jit(lambda params, x, y: 0.5 * np.mean((apply_fn(params, x) - y) ** 2))
+      grad_loss = jit(lambda state, x, y: grad(loss)(get_params(state), x, y))
+      
+      ```
+  9. training the ensemble of neural networks
+      * using JAX function VMAP to train the ensemble neural network
+      * train_network is defined as a function to get params, train_losses and test_losses from ensemble_key
+      * ensemble_key is an array of keys of length equal to ensemble_size and is split from the previous key
+      ```
+      def train_network(key):
+        train_losses = []
+        test_losses = []
+
+        _, params = init_fn(key, (-1, 1)) 
+        opt_state = opt_init(params)
+
+        for i in range(training_steps):
+          train_losses += [np.reshape(loss(get_params(opt_state), *train), (1,))]  
+          test_losses += [np.reshape(loss(get_params(opt_state), *test), (1,))]
+          opt_state = opt_update(i, grad_loss(opt_state, *train), opt_state)
+
+        train_losses = np.concatenate(train_losses)
+        test_losses = np.concatenate(test_losses)
+        return get_params(opt_state), train_losses, test_losses
+      ```
+      ```
+      ensemble_size = 100
+      ensemble_key = random.split(key, ensemble_size)
+      params, train_loss, test_loss = vmap(train_network)(ensemble_key) 
+      ```
+      * plotting mean of train_loss and mean of test_loss along with ntk_train_loss_mean and ntk_test_loss_mean against ts to get perspective of errors over time
+      ```
+      mean_train_loss = np.mean(train_loss, axis=0)
+      mean_test_loss = np.mean(test_loss, axis=0)
+      ```
+      * plotting mean and std of ensemble along with ntk_test_mean and ntk_test_std against the test_xs
+      ```
+      ensemble_fx = vmap(apply_fn, (0, None))(params, test_xs)
+      mean_fx = np.reshape(np.mean(ensemble_fx, axis=0), (-1,))
+      std_fx = np.reshape(np.std(ensemble_fx, axis=0), (-1,))
+      ```
+  10. This ensemble neural network inference is valid for any kind of complex network architecture
+      * For example:
+      ```
+      ResBlock = stax.serial(
+      stax.FanOut(2),
+      stax.parallel(
+          stax.serial(
+             stax.Erf(),
+              stax.Dense(512, W_std=1.1, b_std=0),
+              ),
+          stax.Identity()
+          ),
+      stax.FanInSum()
+      )  
+          
+      init_fn, apply_fn, kernel_fn = stax.serial(
+      stax.Dense(512, W_std=1, b_std=0),
+      ResBlock, ResBlock, stax.Erf(),
+      stax.Dense(1, W_std=1.5, b_std=0))
+      ```
   
 
     
