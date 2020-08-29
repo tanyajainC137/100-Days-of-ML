@@ -38,7 +38,7 @@
 * It was found that deep neural networks can exhibit a phase transition as a function of the variance of their weights ( σ2w ) and biases ( σ2b ). 
 * For networks with  tanh  activation functions, this phase transition is between an "ordered" phase and a "chaotic" phase. In the ordered phase, pairs of inputs collapse to a single point as they propagate through the network. By contrast, in the chaotic phase, nearby inputs become increasingly dissimilar in later layers of the network.
 * A number of properties of neural networks - such as trainability, mode-collapse, and maximum learing rate - have now been related to this phase diagram.  
-[phase diagram](https://forums.fast.ai/uploads/default/original/3X/f/5/f5bb0b2c37bb6b34446b29fe1004093e7534268e.png)
+![phase diagram](https://forums.fast.ai/uploads/default/original/3X/f/5/f5bb0b2c37bb6b34446b29fe1004093e7534268e.png)
 
 
 
