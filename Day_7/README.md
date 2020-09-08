@@ -12,7 +12,7 @@
 `pip install flask`
 
 * After working around on the flask app and getting the hang of it I was able to create a good looking header on various different webpages  
-![Flask app](../Capture.JPG)
+![Flask app](https://github.com/tanyajainC137/100-Days-of-ML/edit/master/Day_7/Capture.JPG)
 
 I have to now insert my charts, graphs and maps. There are many options do to this:
 - save the graphs as .png files in a static folder and put it in HTML directly; static & non-interactive
