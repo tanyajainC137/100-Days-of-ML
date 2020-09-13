@@ -16,7 +16,11 @@
 
 I have to now insert my charts, graphs and maps. There are many options do to this:
 - save the graphs as .png files in a static folder and put it in HTML directly; static & non-interactive
+[follow this link to extract all graphs from python notebooks at once](https://medium.com/analytics-vidhya/export-images-from-jupyter-notebook-with-a-single-command-422db2b66e92)
+`<img src = 'picture.PNG' style="width:300px;height:150px;">`
+
 - compute graph inside flask and pass it to HTML directly; dynamic but non-interactive
+[follow this link for how to send graph as string to html](https://gitlab.com/snippets/1924163)
 - use exernal library to create graphs inside flask; dynamic and interactive
 
 ### **Plotly Dash** is a library which uses flask under the hood and is useful for making charts/graphs on web-pages
@@ -26,5 +30,5 @@ I have to now insert my charts, graphs and maps. There are many options do to th
 I'll try out both of them, compare and see which one is better for myself
 
 ## Using Dash Plotly for visualisation 
-
+[follow along this blog for more details](https://blog.heptanalytics.com/flask-plotly-dashboard/)
 
